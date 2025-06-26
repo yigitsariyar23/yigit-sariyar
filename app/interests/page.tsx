@@ -1,14 +1,7 @@
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search, ArrowRight, Gamepad2, Film, Code, BookOpen, Palette, Music, Coffee, Globe } from "lucide-react"
 import { getAllInterests } from "@/lib/interests"
 import { Interest } from "@/types"
 import InterestsClient from "./interests-client"
+import PageTransition from "@/components/page-transition"
 
 export default async function InterestsPage() {
   // Fetch interests from Supabase
@@ -23,5 +16,7 @@ export default async function InterestsPage() {
   }
 
   // Pass data to client component
-  return <InterestsClient interests={interests} />
+  return <PageTransition>
+    <InterestsClient interests={interests} />
+    </PageTransition>
 } 

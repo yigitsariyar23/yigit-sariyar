@@ -31,10 +31,10 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+          <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="text-xl font-bold text-slate-900 dark:text-white">
+                      <Link href="/" className="text-xl font-bold text-foreground">
             Yiğit Sarıyar
           </Link>
 
@@ -46,8 +46,8 @@ export function Navbar() {
                 href={item.href}
                 className={`transition-colors ${
                   isActive(item.href)
-                    ? "text-slate-900 dark:text-white font-medium"
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.name}
@@ -55,8 +55,23 @@ export function Navbar() {
             ))}
 
             {mounted && (
-              <Button variant="ghost" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="relative overflow-hidden hover:bg-accent/10 transition-all duration-300"
+              >
+                <Sun className={`h-4 w-4 absolute transition-all duration-500 ${
+                  theme === "dark" 
+                    ? "rotate-0 scale-100 opacity-100" 
+                    : "rotate-90 scale-0 opacity-0"
+                }`} />
+                <Moon className={`h-4 w-4 absolute transition-all duration-500 ${
+                  theme === "dark" 
+                    ? "-rotate-90 scale-0 opacity-0" 
+                    : "rotate-0 scale-100 opacity-100"
+                }`} />
+                <span className="sr-only">Toggle theme</span>
               </Button>
             )}
           </div>
@@ -64,8 +79,23 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
             {mounted && (
-              <Button variant="ghost" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="relative overflow-hidden hover:bg-accent/10 transition-all duration-300"
+              >
+                <Sun className={`h-4 w-4 absolute transition-all duration-500 ${
+                  theme === "dark" 
+                    ? "rotate-0 scale-100 opacity-100" 
+                    : "rotate-90 scale-0 opacity-0"
+                }`} />
+                <Moon className={`h-4 w-4 absolute transition-all duration-500 ${
+                  theme === "dark" 
+                    ? "-rotate-90 scale-0 opacity-0" 
+                    : "rotate-0 scale-100 opacity-100"
+                }`} />
+                <span className="sr-only">Toggle theme</span>
               </Button>
             )}
             <Button variant="ghost" size="sm" onClick={() => setIsOpen(!isOpen)}>
@@ -76,7 +106,7 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-slate-200 dark:border-slate-700">
+          <div className="md:hidden py-4 border-t border-border">
             <div className="flex flex-col space-y-4">
               {navigation.map((item) => (
                 <Link
@@ -85,8 +115,8 @@ export function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={`transition-colors ${
                     isActive(item.href)
-                      ? "text-slate-900 dark:text-white font-medium"
-                      : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+                      ? "text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {item.name}

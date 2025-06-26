@@ -47,24 +47,23 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
     return matchesCategory && matchesSearch
   })
 
-  const featuredInterest = interests.find((interest) => interest.featured)
   const regularInterests = filteredInterests.filter((interest) => !interest.featured)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">My Interests</h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">My Interests</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Technical passions and social interests that shape my perspective, inform my work, and drive my curiosity about the world.
             </p>
 
             {/* Search */}
             <div className="max-w-md mx-auto mb-8">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   placeholder="Search interests..."
                   value={searchQuery}
@@ -102,7 +101,7 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
               return (
                 <Card
                   key={interest.id}
-                  className="group hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-900"
+                  className="group hover:shadow-lg transition-all duration-300 bg-card"
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-center justify-between mb-4">
@@ -118,7 +117,7 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
                     <Badge variant="outline" className="w-fit mb-2 text-xs">
                       {interest.type}
                     </Badge>
-                    <CardTitle className="text-xl group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
+                    <CardTitle className="text-xl group-hover:text-accent transition-colors">
                       {interest.title}
                     </CardTitle>
                     <CardDescription className="text-base">{interest.excerpt}</CardDescription>
@@ -133,7 +132,7 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
                     </div>
                     <Link
                       href={`/interests/${interest.slug}`}
-                      className="inline-flex items-center text-slate-900 dark:text-white hover:text-slate-600 dark:hover:text-slate-300 transition-colors font-medium"
+                      className="inline-flex items-center text-foreground hover:text-accent transition-colors font-medium"
                     >
                       Explore Interest
                       <ArrowRight className="ml-1 h-4 w-4" />
@@ -146,7 +145,7 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
 
           {filteredInterests.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-lg text-slate-600 dark:text-slate-400">
+              <p className="text-lg text-muted-foreground">
                 No interests found matching your search criteria.
               </p>
               <Button

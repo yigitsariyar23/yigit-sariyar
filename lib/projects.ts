@@ -1,5 +1,5 @@
 import { supabase } from './database'
-import { Project, CreateProject, UpdateProject } from '@/types'
+import { Project, CreateProject } from '@/types'
 
 export async function getAllProjects(): Promise<Project[]> {
   try {

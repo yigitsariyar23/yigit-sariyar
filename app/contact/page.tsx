@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Github, Linkedin, Mail, MapPin, Gamepad2, Phone, Globe, MessageCircle } from "lucide-react"
 import { getDirectContactInfo, getSocialContactInfo } from "@/lib/contact"
-import { ContactInfo } from "@/types/contact"
+import PageTransition from "@/components/page-transition"
 
 // Icon mapping for dynamic icon rendering
 const iconMap = {
@@ -23,14 +23,14 @@ export default async function ContactPage() {
   ])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <PageTransition className="bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">Let's Connect</h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              I'm always interested in new opportunities, collaborations, and interesting conversations about
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Let&apos;s Connect</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              I&apos;m always interested in new opportunities, collaborations, and interesting conversations about
               technology, creativity, and innovation. Feel free to reach out!
             </p>
           </div>
@@ -38,7 +38,7 @@ export default async function ContactPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Contact Information */}
               {/* Direct Contact */}
-              <Card className="bg-white dark:bg-slate-900">
+              <Card className="bg-card">
                 <CardHeader>
                   <CardTitle>Get In Touch Directly</CardTitle>
                   <CardDescription>Prefer direct communication? Here are the best ways to reach me.</CardDescription>
@@ -79,7 +79,7 @@ export default async function ContactPage() {
               </Card>
 
               {/* Social Links */}
-              <Card className="bg-white dark:bg-slate-900">
+              <Card className="bg-card">
                 <CardHeader>
                   <CardTitle>Connect on Social</CardTitle>
                   <CardDescription>Follow my work and connect with me on these platforms.</CardDescription>
@@ -122,8 +122,8 @@ export default async function ContactPage() {
                 </CardContent>
               </Card>
             </div>
-          </div>
         </div>
       </div>
+    </PageTransition>
   )
 }

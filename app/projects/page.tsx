@@ -1,17 +1,18 @@
 import { getAllProjects } from "@/lib/projects"
 import ProjectsClient from "./projects-client"
+import PageTransition from "@/components/page-transition"
 
 export default async function ProjectsPage() {
   const projects = await getAllProjects()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <PageTransition className="bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">Projects</h1>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Projects</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               A collection of my work spanning games, web applications, system programming, and collaborative projects.
             </p>
           </div>
@@ -20,6 +21,6 @@ export default async function ProjectsPage() {
           <ProjectsClient projects={projects} />
         </div>
       </div>
-    </div>
+    </PageTransition>
   )
 }

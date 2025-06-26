@@ -11,10 +11,10 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Project Not Found</h1>
-          <p className="text-slate-600 dark:text-slate-400 mb-8">The project you're looking for doesn't exist.</p>
+                      <h1 className="text-4xl font-bold text-foreground mb-4">Project Not Found</h1>
+            <p className="text-muted-foreground mb-8">The project you&apos;re looking for doesn&apos;t exist.</p>
           <Button asChild>
             <Link href="/projects">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -33,7 +33,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}

@@ -1,5 +1,5 @@
 import { supabase } from './database'
-import { Interest, CreateInterest, UpdateInterest } from '@/types'
+import { Interest, CreateInterest } from '@/types'
 
 export async function getAllInterests(): Promise<Interest[]> {
   try {

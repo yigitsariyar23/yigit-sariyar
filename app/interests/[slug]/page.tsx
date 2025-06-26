@@ -1,9 +1,7 @@
 import Link from "next/link"
-import Image from "next/image"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, ArrowRight, Clock, Lightbulb, Heart, BookOpen, FileText, Video, Mic } from "lucide-react"
+import { ArrowLeft, Lightbulb, BookOpen, FileText, Video } from "lucide-react"
 import { getInterestBySlug } from "@/lib/interests"
 import { notFound } from "next/navigation"
 
@@ -39,7 +37,7 @@ export default async function InterestPage({ params }: { params: { slug: string 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -92,7 +90,7 @@ export default async function InterestPage({ params }: { params: { slug: string 
                   This is an area of deep personal and professional interest that continues to shape my approach to technology and problem-solving.
                 </p>
                 <p className="mb-6">
-                  I'm constantly exploring new developments in this field and how they can be applied to create better digital experiences and solutions.
+                  I&apos;m constantly exploring new developments in this field and how they can be applied to create better digital experiences and solutions.
                 </p>
                 <p className="mb-6">
                   Stay tuned for more detailed content about this interest as I continue to develop and share my insights.
@@ -107,7 +105,7 @@ export default async function InterestPage({ params }: { params: { slug: string 
               Interested in this topic?
             </h3>
             <p className="text-slate-600 dark:text-slate-400 mb-4">
-              I'd love to hear your thoughts or discuss this interest further.
+              I&apos;d love to hear your thoughts or discuss this interest further.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild>
