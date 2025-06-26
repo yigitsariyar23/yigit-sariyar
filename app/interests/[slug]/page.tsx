@@ -6,7 +6,8 @@ import { getInterestBySlug } from "@/lib/interests"
 import { notFound } from "next/navigation"
 
 export default async function InterestPage({ params }: { params: { slug: string } }) {
-  const interest = await getInterestBySlug(params.slug)
+  const { slug } = await params
+  const interest = await getInterestBySlug(slug)
   
   if (!interest) {
     notFound()

@@ -37,6 +37,7 @@ interface InterestsClientProps {
 export default function InterestsClient({ interests }: InterestsClientProps) {
   const [activeFilter, setActiveFilter] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   const filteredInterests = interests.filter((interest) => {
     const matchesCategory = activeFilter === "All" || interest.category === activeFilter
@@ -48,6 +49,19 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
   })
 
   const regularInterests = filteredInterests.filter((interest) => !interest.featured)
+
+  // Handle filter change with transition
+  const handleFilterChange = (newFilter: string) => {
+    if (newFilter === activeFilter) return
+    
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setActiveFilter(newFilter)
+      setTimeout(() => {
+        setIsTransitioning(false)
+      }, 50)
+    }, 150)
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -81,8 +95,8 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
                 key={category.key}
                 variant={activeFilter === category.key ? "default" : "outline"}
                 size="sm"
-                onClick={() => setActiveFilter(category.key)}
-                className="transition-all duration-200"
+                onClick={() => handleFilterChange(category.key)}
+                className="transition-all duration-300"
               >
                 {category.label}
                 <span className="ml-2 text-xs opacity-70">
@@ -95,50 +109,57 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
           </div>
 
           {/* Interests Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {regularInterests.map((interest) => {
+          <div 
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-300 ${
+              isTransitioning ? 'opacity-0' : 'opacity-100'
+            }`}
+            key={activeFilter}
+          >
+            {regularInterests.map((interest, index) => {
               const IconComponent = getIconComponent(interest.icon)
               return (
-                <Card
+                <Link
                   key={interest.id}
-                  className="group hover:shadow-lg transition-all duration-300 bg-card"
+                  href={`/interests/${interest.slug}`}
+                  className="group block"
                 >
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`p-3 rounded-lg ${interest.color}`}>
-                        <IconComponent className="h-6 w-6" />
+                  <Card
+                    className="group-hover:shadow-lg transition-all duration-300 bg-card cursor-pointer h-full"
+                    style={{
+                      animationDelay: `${index * 50}ms`,
+                      animation: isTransitioning ? 'none' : 'fadeInUp 0.4s ease-out forwards'
+                    }}
+                  >
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className={`p-3 rounded-lg ${interest.color}`}>
+                          <IconComponent className="h-6 w-6" />
+                        </div>
+                        <div className="flex gap-2">
+                          <Badge variant={interest.category === "Technical" ? "default" : "secondary"} className="text-xs">
+                            {interest.category}
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="flex gap-2">
-                        <Badge variant={interest.category === "Technical" ? "default" : "secondary"} className="text-xs">
-                          {interest.category}
-                        </Badge>
+                      <Badge variant="outline" className="w-fit mb-2 text-xs">
+                        {interest.type}
+                      </Badge>
+                      <CardTitle className="text-xl group-hover:text-accent transition-colors">
+                        {interest.title}
+                      </CardTitle>
+                      <CardDescription className="text-base">{interest.excerpt}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="flex flex-wrap gap-2">
+                        {interest.tags.map((tag) => (
+                          <Badge key={tag} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
                       </div>
-                    </div>
-                    <Badge variant="outline" className="w-fit mb-2 text-xs">
-                      {interest.type}
-                    </Badge>
-                    <CardTitle className="text-xl group-hover:text-accent transition-colors">
-                      {interest.title}
-                    </CardTitle>
-                    <CardDescription className="text-base">{interest.excerpt}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {interest.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    <Link
-                      href={`/interests/${interest.slug}`}
-                      className="inline-flex items-center text-foreground hover:text-accent transition-colors font-medium"
-                    >
-                      Explore Interest
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               )
             })}
           </div>
@@ -160,6 +181,19 @@ export default function InterestsClient({ interests }: InterestsClientProps) {
               </Button>
             </div>
           )}
+
+          <style jsx>{`
+            @keyframes fadeInUp {
+              from {
+                opacity: 0;
+                transform: translateY(20px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          `}</style>
         </div>
       </div>
     </div>

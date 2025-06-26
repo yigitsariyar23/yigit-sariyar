@@ -7,7 +7,8 @@ import { ArrowLeft, Github, Globe, Calendar, Users, Zap } from "lucide-react"
 import { getProjectBySlug } from "@/lib/projects"
 
 export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
-  const project = await getProjectBySlug(params.slug)
+  const { slug } = await params
+  const project = await getProjectBySlug(slug)
 
   if (!project) {
     return (
