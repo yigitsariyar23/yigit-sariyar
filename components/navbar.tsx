@@ -20,7 +20,7 @@ export function Navbar() {
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Projects", href: "/projects" },
-    { name: "Blog", href: "/blog" },
+    { name: "Interests", href: "/interests" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ]

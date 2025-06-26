@@ -4,63 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, Github, Globe, Calendar, Users, Zap } from "lucide-react"
+import { getProjectBySlug } from "@/lib/projects"
 
-// This would typically come from a CMS or database
-const getProject = (slug: string) => {
-  const projects = {
-    agms: {
-      title: "AGMS - Automated Graduation Management System",
-      category: "Web Application",
-      description:
-        "A comprehensive role-based web application designed to streamline graduation workflows for educational institutions.",
-      longDescription:
-        "AGMS is a full-stack web application that automates and manages the complex graduation process for universities. The system handles multiple user roles including students, advisors, department heads, and administrators, each with specific permissions and workflows. Built with modern technologies and deployed on cloud infrastructure for scalability and reliability.",
-      image: "/placeholder.svg?height=400&width=800",
-      tags: ["Next.js", "Spring Boot", "PostgreSQL", "JWT", "Azure", "Vercel", "TypeScript", "Java"],
-      status: "Completed",
-      year: "2024",
-      duration: "4 months",
-      team: "3 developers",
-      role: "Full-Stack Developer & Project Lead",
-      challenges: [
-        "Complex role-based permission system with multiple user types",
-        "Real-time notifications and status updates across the system",
-        "Integration with existing university database systems",
-        "Scalable architecture to handle thousands of concurrent users",
-      ],
-      solutions: [
-        "Implemented JWT-based authentication with role-based access control",
-        "Used WebSocket connections for real-time updates and notifications",
-        "Created API adapters for seamless integration with legacy systems",
-        "Deployed on Azure with auto-scaling capabilities and Vercel for frontend",
-      ],
-      techStack: {
-        frontend: ["Next.js", "TypeScript", "Tailwind CSS", "ShadCN UI"],
-        backend: ["Spring Boot", "Java", "JWT Authentication", "RESTful APIs"],
-        database: ["PostgreSQL", "Redis for caching"],
-        deployment: ["Azure App Service", "Vercel", "Docker"],
-      },
-      features: [
-        "Multi-role user management system",
-        "Automated workflow processing",
-        "Real-time notifications",
-        "Document management and approval",
-        "Analytics and reporting dashboard",
-        "Mobile-responsive design",
-      ],
-      screenshots: [
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-        "/placeholder.svg?height=300&width=500",
-      ],
-    },
-  }
-
-  return projects[slug as keyof typeof projects] || null
-}
-
-export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
-  const project = getProject(params.slug)
+export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
+  const project = await getProjectBySlug(params.slug)
 
   if (!project) {
     return (
@@ -77,6 +24,12 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         </div>
       </div>
     )
+  }
+
+  // Format project date to show year
+  const formatProjectYear = (date: string | Date) => {
+    const projectDate = new Date(date)
+    return projectDate.getFullYear().toString()
   }
 
   return (
@@ -96,7 +49,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <Badge variant="secondary">{project.category}</Badge>
               <Badge variant="outline">{project.status}</Badge>
-              <Badge variant="outline">{project.year}</Badge>
+              <Badge variant="outline">{formatProjectYear(project.project_date)}</Badge>
             </div>
 
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-6">{project.title}</h1>
@@ -130,14 +83,22 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-4">
-              <Button>
-                <Github className="mr-2 h-4 w-4" />
-                View Code
-              </Button>
-              <Button variant="outline">
-                <Globe className="mr-2 h-4 w-4" />
-                Live Demo
-              </Button>
+              {project.github_url && (
+                <Button asChild>
+                  <Link href={project.github_url} target="_blank" rel="noopener noreferrer">
+                    <Github className="mr-2 h-4 w-4" />
+                    View Code
+                  </Link>
+                </Button>
+              )}
+              {project.live_url && (
+                <Button variant="outline" asChild>
+                  <Link href={project.live_url} target="_blank" rel="noopener noreferrer">
+                    <Globe className="mr-2 h-4 w-4" />
+                    Live Demo
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 
@@ -158,7 +119,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
               {/* Overview */}
               <section>
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Overview</h2>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{project.longDescription}</p>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{project.long_description}</p>
               </section>
 
               {/* Key Features */}
@@ -231,7 +192,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                     <div>
                       <h4 className="font-medium text-slate-900 dark:text-white mb-2">Frontend</h4>
                       <div className="flex flex-wrap gap-2">
-                        {project.techStack.frontend.map((tech) => (
+                        {project.tech_stack.frontend.map((tech: string) => (
                           <Badge key={tech} variant="outline" className="text-xs">
                             {tech}
                           </Badge>
@@ -241,7 +202,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                     <div>
                       <h4 className="font-medium text-slate-900 dark:text-white mb-2">Backend</h4>
                       <div className="flex flex-wrap gap-2">
-                        {project.techStack.backend.map((tech) => (
+                        {project.tech_stack.backend.map((tech: string) => (
                           <Badge key={tech} variant="outline" className="text-xs">
                             {tech}
                           </Badge>
@@ -251,7 +212,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                     <div>
                       <h4 className="font-medium text-slate-900 dark:text-white mb-2">Database</h4>
                       <div className="flex flex-wrap gap-2">
-                        {project.techStack.database.map((tech) => (
+                        {project.tech_stack.database.map((tech: string) => (
                           <Badge key={tech} variant="outline" className="text-xs">
                             {tech}
                           </Badge>
@@ -261,7 +222,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                     <div>
                       <h4 className="font-medium text-slate-900 dark:text-white mb-2">Deployment</h4>
                       <div className="flex flex-wrap gap-2">
-                        {project.techStack.deployment.map((tech) => (
+                        {project.tech_stack.deployment.map((tech: string) => (
                           <Badge key={tech} variant="outline" className="text-xs">
                             {tech}
                           </Badge>
